@@ -23,7 +23,7 @@
     </PropertyGroup>
     
     <PropertyGroup>
-        <OutputPath>$(SolutionDir)\Build\$(MSBuildProjectName)\bin\$(Configuration)</OutputPath>
+        <OutputPath>$(SolutionDir)Build\$(MSBuildProjectName)\bin\$(Configuration)</OutputPath>
         <BaseIntermediateOutputPath>$(SolutionDir)\Build\$(MSBuildProjectName)\obj</BaseIntermediateOutputPath>
     </PropertyGroup>
 </Project>
