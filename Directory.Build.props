@@ -1,8 +1,8 @@
 <Project>
     <PropertyGroup>
         <!-- Repository and project URLs (used in nuget packages) -->
-        <RepositoryUrl>https://github.com/shuvava/dotnet_options.git</RepositoryUrl>
-        <PackageProjectUrl>https://github.com/shuvava/dotnet_options/blob/master/README.md</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/shuvava/webapi-template.git</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/shuvava/webapi-template/blob/master/README.md</PackageProjectUrl>
     </PropertyGroup>
     <PropertyGroup>
         <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
@@ -20,6 +20,9 @@
     <PropertyGroup>
         <NewtonsoftJson>11.0.2</NewtonsoftJson>
         <NerdbankGitVersioning>2.2.33</NerdbankGitVersioning>
+        <MsLogging>2.1.1</MsLogging>
+        <MsConfiguration>2.1.1</MsConfiguration>
+        <MsExtensionsCaching>2.1.2</MsExtensionsCaching>
     </PropertyGroup>
     
     <PropertyGroup>
