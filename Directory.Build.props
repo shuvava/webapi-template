@@ -22,6 +22,7 @@
         <NerdbankGitVersioning>2.2.33</NerdbankGitVersioning>
         <MsLogging>2.1.1</MsLogging>
         <MsConfiguration>2.1.1</MsConfiguration>
+		<MsConfigurationOptions>2.1.1</MsConfigurationOptions>
         <MsExtensionsCaching>2.1.2</MsExtensionsCaching>
     </PropertyGroup>
     

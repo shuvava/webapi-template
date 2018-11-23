@@ -4,7 +4,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 
-namespace NopClient.Services.WebApp.Extensions.Swagger
+namespace WebAppSwagger.Extensions.Swagger
 {
     public class SetVersionInPaths : IDocumentFilter
     {

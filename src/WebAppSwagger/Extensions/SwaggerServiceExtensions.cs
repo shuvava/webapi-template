@@ -1,15 +1,22 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 
-using NopClient.Services.WebApp.Extensions.Swagger;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
+
+using WebAppSwagger.Extensions.Swagger;
+using WebAppSwagger.Models;
 
 
-namespace WebAppBase.Extensions
+namespace WebAppSwagger.Extensions
 {
     public static class SwaggerServiceExtensions
     {
@@ -18,7 +25,8 @@ namespace WebAppBase.Extensions
             services.AddSwaggerGen(
                 options =>
                 {
-                    options.SwaggerDoc($"v{ApiVersions.V1}", new Info {Title = "Nop Form API", Version = $"v{ApiVersions.V1}"});
+                    options.SwaggerDoc($"v{ApiVersions.V1}", new Info { Title = "API", Version = $"v{ApiVersions.V1}" });
+                    options.SwaggerDoc($"v{ApiVersions.V2}", new Info { Title = "API", Version = $"v{ApiVersions.V2}" });
 
                     options.DocInclusionPredicate((version, apiDescription) =>
                     {
@@ -29,26 +37,30 @@ namespace WebAppBase.Extensions
                         {
                             return actionVersions.Any(v => $"v{v.ToString()}" == version);
                         }
+                        if (!controllerVersions.Any() && version == $"v{ApiVersions.V1}")
+                        {
+                            return true;
+                        }
                         return controllerVersions.Any(v => $"v{v.ToString()}" == version);
                     });
                     options.OperationFilter<RemoveVersionParameters>();
                     options.DocumentFilter<SetVersionInPaths>();
 
-                    var security = new Dictionary<string, IEnumerable<string>>
-                    {
-                        {"Bearer", new string[] { }}
-                    };
+                    //var security = new Dictionary<string, IEnumerable<string>>
+                    //{
+                    //    {"Bearer", new string[] { }}
+                    //};
 
-                    options.AddSecurityDefinition("Bearer", new ApiKeyScheme
-                    {
-                        Description =
-                            "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                        Name = "Authorization",
-                        In = "header",
-                        Type = "apiKey"
-                    });
+                    //options.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                    //{
+                    //    Description =
+                    //        "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    //    Name = "Authorization",
+                    //    In = "header",
+                    //    Type = "apiKey"
+                    //});
 
-                    options.AddSecurityRequirement(security);
+                    //options.AddSecurityRequirement(security);
 
                     // integrate xml comments
                     options.IncludeXmlComments( XmlCommentsFilePath );
@@ -66,7 +78,8 @@ namespace WebAppBase.Extensions
                 options =>
                 {
                     options.SwaggerEndpoint($"/swagger/v{ApiVersions.V1}/swagger.json", $"Versioned API v{ApiVersions.V1}");
-                    options.DocumentTitle = "Nop Form Documentation";
+                    options.SwaggerEndpoint($"/swagger/v{ApiVersions.V2}/swagger.json", $"Versioned API v{ApiVersions.V2}");
+                    options.DocumentTitle = "Documentation Example";
                     options.DocExpansion(DocExpansion.None);
                 });
 
