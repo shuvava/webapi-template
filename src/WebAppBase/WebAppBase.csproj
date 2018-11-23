@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-<DocumentationFile>$(SolutionDir)Build\$(MSBuildProjectName)\bin\$(Configuration)\$(MSBuildProjectName).xml</DocumentationFile>
+<DocumentationFile>$(SolutionDir)build\$(MSBuildProjectName)\bin\$(Configuration)\$(MSBuildProjectName).xml</DocumentationFile>
   </PropertyGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.Web" />
   <ItemGroup>
