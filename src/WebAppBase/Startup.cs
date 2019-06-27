@@ -64,7 +64,9 @@ namespace WebAppBase
             //loggerFactory
             //    .AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
 
-            app.UseMiddleware<ExceptionMiddleware>();
+            app.ConfigureExceptionHandler(env);
+            // one more possible option of global exception handler
+//            app.UseMiddleware<ExceptionMiddleware>();
 
             //app.UseCors("MyPolicy");
 
