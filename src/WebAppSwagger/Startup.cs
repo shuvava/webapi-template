@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
-using Swashbuckle.AspNetCore.Swagger;
 
 using WebAppSwagger.Extensions;
 
@@ -40,11 +39,12 @@ namespace WebAppSwagger
             //}));
 
             //services.AddApplicationInsightsTelemetry();
-            services.AddApiVersioning( options =>
+            services.AddApiVersioning(options =>
             {
                 options.ReportApiVersions = true;
                 options.AssumeDefaultVersionWhenUnspecified = true;
             });
+
             services.AddSwaggerDocumentation();
 
             //services.AddNopServicesRepository(Configuration);
@@ -53,6 +53,7 @@ namespace WebAppSwagger
 
             services
                 .AddMvcCore()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddApiExplorer()
                 .AddAuthorization()
                 //.AddCors()

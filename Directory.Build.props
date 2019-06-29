@@ -18,14 +18,20 @@
         <Copyright>shuvava</Copyright>
     </PropertyGroup>
     <PropertyGroup>
-        <NewtonsoftJson>11.0.2</NewtonsoftJson>
-        <NerdbankGitVersioning>2.2.33</NerdbankGitVersioning>
-        <MsLogging>2.1.1</MsLogging>
-        <MsConfiguration>2.1.1</MsConfiguration>
-		<MsConfigurationOptions>2.1.1</MsConfigurationOptions>
-        <MsExtensionsCaching>2.1.2</MsExtensionsCaching>
+        <NewtonsoftJson>12.0.2</NewtonsoftJson>
+        <MsLogging>2.2.0</MsLogging>
+        <MsConfiguration>2.2.0</MsConfiguration>
+		<MsConfigurationOptions>2.2.0</MsConfigurationOptions>
+        <MsExtensionsCaching>2.2.0</MsExtensionsCaching>
     </PropertyGroup>
-    
+
+   <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning">
+      <Version>2.3.183</Version>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
     <PropertyGroup>
         <OutputPath>$(SolutionDir)build\$(MSBuildProjectName)\bin\$(Configuration)</OutputPath>
         <BaseIntermediateOutputPath>..\..\build\$(MSBuildProjectName)\obj</BaseIntermediateOutputPath>

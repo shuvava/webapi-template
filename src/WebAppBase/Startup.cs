@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -51,6 +52,7 @@ namespace WebAppBase
 
             services
                 .AddMvcCore()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddApiExplorer()
                 .AddAuthorization()
                 //.AddCors()

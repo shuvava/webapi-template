@@ -18,6 +18,7 @@ namespace WebAppSwagger.Controllers
         }
 
 
+        [HttpGet("/")]
         [HttpGet("version")]
         [ProducesResponseType(typeof(string), 200)]
         public ActionResult<string> Get()

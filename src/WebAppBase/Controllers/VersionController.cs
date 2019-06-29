@@ -19,6 +19,7 @@ namespace WebAppBase.Controllers
         }
 
 
+        [HttpGet("/")]
         [HttpGet("version")]
         public ActionResult<string> Get()
         {
