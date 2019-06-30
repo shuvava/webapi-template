@@ -1,14 +1,17 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 
-using WebAppBase.Extensions;
+using WebAppHealthCheck.Extensions;
+using WebAppHealthCheck.HealthCheck;
 
 
-namespace WebAppBase
+namespace WebAppHealthCheck
 {
     public class Startup
     {
@@ -24,33 +27,20 @@ namespace WebAppBase
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddAuthentication(sharedOptions =>
-            //    {
-            //        sharedOptions.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            //        sharedOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    })
-            //    .AddAzureAd(options => { Configuration.Bind("AzureAd", options); });
-            //services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-            //{
-            //    builder
-            //        .AllowAnyOrigin()
-            //        .AllowAnyMethod()
-            //        .AllowAnyHeader();
-            //}));
-
-            //services.AddApplicationInsightsTelemetry();
             services.AddApiVersioning( options =>
             {
                 options.ReportApiVersions = true;
                 options.AssumeDefaultVersionWhenUnspecified = true;
             });
-            //services.AddSwaggerDocumentation();
 
-            //services.AddNopServicesRepository(Configuration);
-
-            //services.AddMemoryCache();
-
-            services.AddHealthChecks();
+            services
+                .AddHealthChecks()
+                .AddCheck("Example", () =>
+                    HealthCheckResult.Healthy("Example is OK!"), tags: new[] {"example"})
+                .AddCheck<ExampleHealthCheck>(
+                    "example_health_check",
+                    failureStatus: HealthStatus.Degraded,
+                    tags: new[] {"example"});
 
             services
                 .AddMvcCore()
@@ -65,17 +55,14 @@ namespace WebAppBase
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            //loggerFactory
-            //    .AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
-
             app.ConfigureExceptionHandler(env);
-            // one more possible option of global exception handler
-//            app.UseMiddleware<ExceptionMiddleware>();
-
-            //app.UseCors("MyPolicy");
 
             // from https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-2.2
-            app.UseHealthChecks("/health");
+            app.UseHealthChecks("/health", new HealthCheckOptions()
+            {
+                // WriteResponse is a delegate used to write the response.
+                ResponseWriter = HealthResponseWriter.WriteResponse
+            });
 
             if (env.IsDevelopment())
             {
