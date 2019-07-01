@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -20,29 +19,48 @@ namespace WebAppSwagger.Extensions
 {
     public static class SwaggerServiceExtensions
     {
+        private static string XmlCommentsFilePath
+        {
+            get
+            {
+                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
+
+                return Path.Combine(basePath, fileName);
+            }
+        }
+
+
         public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)
         {
             services.AddSwaggerGen(
                 options =>
                 {
-                    options.SwaggerDoc($"v{ApiVersions.V1}", new Info { Title = "API", Version = $"v{ApiVersions.V1}" });
-                    options.SwaggerDoc($"v{ApiVersions.V2}", new Info { Title = "API", Version = $"v{ApiVersions.V2}" });
+                    options.SwaggerDoc($"v{ApiVersions.V1}", new Info {Title = "API", Version = $"v{ApiVersions.V1}"});
+                    options.SwaggerDoc($"v{ApiVersions.V2}", new Info {Title = "API", Version = $"v{ApiVersions.V2}"});
 
                     options.DocInclusionPredicate((version, apiDescription) =>
                     {
-                        var actionVersions = apiDescription.ActionAttributes().OfType<MapToApiVersionAttribute>().SelectMany(attr => attr.Versions);
-                        var controllerVersions = apiDescription.ControllerAttributes().OfType<ApiVersionAttribute>().SelectMany(attr => attr.Versions);
-                        var controllerAndActionVersionsOverlap = controllerVersions.Intersect(actionVersions).Any();
-                        if (controllerAndActionVersionsOverlap)
+                        if (!apiDescription.TryGetMethodInfo(out var methodInfo))
                         {
-                            return actionVersions.Any(v => $"v{v.ToString()}" == version);
+                            return false;
                         }
-                        if (!controllerVersions.Any() && version == $"v{ApiVersions.V1}")
+
+                        var versions = methodInfo.DeclaringType
+                            .GetCustomAttributes(true)
+                            .OfType<ApiVersionAttribute>()
+                            .SelectMany(attr => attr.Versions)
+                            .ToList();
+
+                        // include non-versioned controllers
+                        if (!versions.Any() && version == $"v{ApiVersions.V1}")
                         {
                             return true;
                         }
-                        return controllerVersions.Any(v => $"v{v.ToString()}" == version);
+
+                        return versions.Any(v => $"v{v.ToString()}" == version);
                     });
+
                     options.OperationFilter<RemoveVersionParameters>();
                     options.DocumentFilter<SetVersionInPaths>();
 
@@ -63,7 +81,7 @@ namespace WebAppSwagger.Extensions
                     //options.AddSecurityRequirement(security);
 
                     // integrate xml comments
-                    options.IncludeXmlComments( XmlCommentsFilePath );
+                    options.IncludeXmlComments(XmlCommentsFilePath);
                 });
 
             return services;
@@ -77,23 +95,17 @@ namespace WebAppSwagger.Extensions
             app.UseSwaggerUI(
                 options =>
                 {
-                    options.SwaggerEndpoint($"/swagger/v{ApiVersions.V1}/swagger.json", $"Versioned API v{ApiVersions.V1}");
-                    options.SwaggerEndpoint($"/swagger/v{ApiVersions.V2}/swagger.json", $"Versioned API v{ApiVersions.V2}");
+                    options.SwaggerEndpoint($"/swagger/v{ApiVersions.V1}/swagger.json",
+                        $"Versioned API v{ApiVersions.V1}");
+
+                    options.SwaggerEndpoint($"/swagger/v{ApiVersions.V2}/swagger.json",
+                        $"Versioned API v{ApiVersions.V2}");
+
                     options.DocumentTitle = "Documentation Example";
                     options.DocExpansion(DocExpansion.None);
                 });
 
             return app;
-        }
-
-        static string XmlCommentsFilePath
-        {
-            get
-            {
-                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-                var fileName = typeof( Startup ).GetTypeInfo().Assembly.GetName().Name + ".xml";
-                return Path.Combine( basePath, fileName );
-            }
         }
     }
 }

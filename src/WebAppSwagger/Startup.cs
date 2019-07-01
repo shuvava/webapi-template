@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using WebAppSwagger.Extensions;
+using WebAppSwagger.HealthCheck;
 
 
 namespace WebAppSwagger
@@ -51,6 +52,8 @@ namespace WebAppSwagger
 
             //services.AddMemoryCache();
 
+            services.ConfigureHealthProbe();
+
             services
                 .AddMvcCore()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
@@ -71,6 +74,8 @@ namespace WebAppSwagger
 
             //app.UseCors("MyPolicy");
             //app.UseStaticFiles();
+
+            app.ConfigureHealthProbe();
 
             if (env.IsDevelopment())
             {

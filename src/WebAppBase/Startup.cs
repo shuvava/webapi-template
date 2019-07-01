@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using WebAppBase.Extensions;
+using WebAppBase.HealthCheck;
 
 
 namespace WebAppBase
@@ -50,7 +51,7 @@ namespace WebAppBase
 
             //services.AddMemoryCache();
 
-            services.AddHealthChecks();
+            services.ConfigureHealthProbe();
 
             services
                 .AddMvcCore()
@@ -74,8 +75,7 @@ namespace WebAppBase
 
             //app.UseCors("MyPolicy");
 
-            // from https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-2.2
-            app.UseHealthChecks("/health");
+            app.ConfigureHealthProbe();
 
             if (env.IsDevelopment())
             {

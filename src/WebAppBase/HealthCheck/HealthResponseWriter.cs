@@ -9,7 +9,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 
-namespace WebAppHealthCheck.HealthCheck
+namespace WebAppBase.HealthCheck
 {
     public static class HealthResponseWriter
     {

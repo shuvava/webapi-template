@@ -33,14 +33,7 @@ namespace WebAppHealthCheck
                 options.AssumeDefaultVersionWhenUnspecified = true;
             });
 
-            services
-                .AddHealthChecks()
-                .AddCheck("Example", () =>
-                    HealthCheckResult.Healthy("Example is OK!"), tags: new[] {"example"})
-                .AddCheck<ExampleHealthCheck>(
-                    "example_health_check",
-                    failureStatus: HealthStatus.Degraded,
-                    tags: new[] {"example"});
+            services.ConfigureHealthProbe();
 
             services
                 .AddMvcCore()
@@ -57,12 +50,7 @@ namespace WebAppHealthCheck
         {
             app.ConfigureExceptionHandler(env);
 
-            // from https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-2.2
-            app.UseHealthChecks("/health", new HealthCheckOptions()
-            {
-                // WriteResponse is a delegate used to write the response.
-                ResponseWriter = HealthResponseWriter.WriteResponse
-            });
+            app.ConfigureHealthProbe();
 
             if (env.IsDevelopment())
             {
