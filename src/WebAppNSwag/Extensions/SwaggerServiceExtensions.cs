@@ -29,8 +29,9 @@ namespace WebAppNSwag.Extensions
 
         public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder app)
         {
-            app.UseOpenApi();
-            app.UseSwaggerUi3();
+            // Add OpenAPI/Swagger middlewares
+            app.UseOpenApi(); // Serves the registered OpenAPI/Swagger documents by default on `/swagger/{documentName}/swagger.json`
+            app.UseSwaggerUi3();// Serves the Swagger UI 3 web ui to view the OpenAPI/Swagger documents by default on `/swagger`
 //            app.UseReDoc();
             return app;
         }
