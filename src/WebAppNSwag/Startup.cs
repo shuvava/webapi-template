@@ -6,11 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using WebAppBase.Extensions;
-using WebAppBase.HealthCheck;
+using WebAppNSwag.Extensions;
+using WebAppNSwag.HealthCheck;
+using WebAppNSwag.Models;
 
 
-namespace WebAppBase
+namespace WebAppNSwag
 {
     public class Startup
     {
@@ -26,32 +27,21 @@ namespace WebAppBase
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddAuthentication(sharedOptions =>
-            //    {
-            //        sharedOptions.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            //        sharedOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    })
-            //    .AddAzureAd(options => { Configuration.Bind("AzureAd", options); });
-            //services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-            //{
-            //    builder
-            //        .AllowAnyOrigin()
-            //        .AllowAnyMethod()
-            //        .AllowAnyHeader();
-            //}));
-
-            //services.AddApplicationInsightsTelemetry();
-            services.AddApiVersioning( options =>
+            services.AddApiVersioning(options =>
             {
                 options.ReportApiVersions = true;
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.ApiVersionReader = new HeaderApiVersionReader("X-App-Version");
+                options.ReportApiVersions = true;
             });
-            //services.AddSwaggerDocumentation();
 
-            //services.AddNopServicesRepository(Configuration);
+            services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "V";
+                options.SubstituteApiVersionInUrl = true;
+            });
 
-            //services.AddMemoryCache();
+            services.AddSwaggerDocumentation();
 
             services.ConfigureHealthProbe();
 
@@ -59,7 +49,6 @@ namespace WebAppBase
                 .AddMvcCore()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddApiExplorer()
-                .AddAuthorization()
                 //.AddCors()
                 .AddJsonFormatters();
         }
@@ -68,25 +57,16 @@ namespace WebAppBase
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            //loggerFactory
-            //    .AddApplicationInsights(app.ApplicationServices, LogLevel.Information);
-
             app.ConfigureExceptionHandler(env);
-            // one more possible option of global exception handler
-//            app.UseMiddleware<ExceptionMiddleware>();
-
-            //app.UseCors("MyPolicy");
 
             app.ConfigureHealthProbe();
 
             if (env.IsDevelopment())
             {
-                //app.UseStaticFiles();
-                //app.UseSwaggerDocumentation();
             }
 
-            //app.UseAuthentication();
             app.UseMvc();
+            app.UseSwaggerDocumentation();
         }
     }
 }
