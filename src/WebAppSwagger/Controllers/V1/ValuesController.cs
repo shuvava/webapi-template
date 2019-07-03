@@ -7,6 +7,7 @@ namespace WebAppSwagger.Controllers.V1
 {
     [ApiVersion(ApiVersions.V1)]
     [Route( "api/v{version:apiVersion}/[controller]" )]
+    [Route( "api/[controller]" )]
     [ApiController]
     public class ValuesController : ControllerBase
     {
