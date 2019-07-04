@@ -1,5 +1,7 @@
 {
-	"recommendations": [
-		"docsmsft.docs-authoring-pack"
-	]
+  "recommendations": [
+    "docsmsft.docs-authoring-pack",
+    "ms-vscode.csharp",
+    "EditorConfig.EditorConfig"
+  ]
 }
