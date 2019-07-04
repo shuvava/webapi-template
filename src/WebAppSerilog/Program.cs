@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 using Microsoft.AspNetCore.Hosting;
@@ -11,9 +12,42 @@ namespace WebAppSerilog
 {
     public class Program
     {
-        public static void Main(string[] args)
+
+        public static IConfiguration Configuration { get; set; }
+        public static int Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
+                .AddEnvironmentVariables()
+                .AddCommandLine(args)
+                .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(Configuration)
+                .Enrich.FromLogContext()
+//                .WriteTo.Console(
+//                    // {Properties:j} added:
+//                    outputTemplate: "[{Timestamp:dd/MM/yyyy HH:mm:ss.fff} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
+//                .WriteTo.File(Path.Combine(Directory.GetCurrentDirectory(),"/logs/log-{Date}.log"), retainedFileCountLimit: 3)
+                .CreateLogger();
+
+            try
+            {
+                CreateWebHostBuilder(args).Build().Run();
+
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+                return 1;
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
 
@@ -22,25 +56,8 @@ namespace WebAppSerilog
             return new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .ConfigureAppConfiguration((hostingContext, config) =>
-                {
-                    var env = hostingContext.HostingEnvironment;
-
-                    config
-                        .SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile("appsettings.json", false, false)
-                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, false)
-                        .AddEnvironmentVariables()
-                        .AddCommandLine(args);
-                })
-                .ConfigureLogging((hostingContext, logging) =>
-                {
-                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                    logging.AddConsole();
-                    logging.AddDebug();
-                    logging.AddSerilog();
-                    logging.AddEventSourceLogger();
-                })
+                .UseConfiguration(Configuration)
+                .UseSerilog()
                 .UseIISIntegration()
                 .UseStartup<Startup>();
         }

@@ -18,19 +18,21 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="$(MsConfiguration)" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="$(MsConfiguration)" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="$(MsConfiguration)" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="$(MsLogging)" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="$(MsLogging)" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="$(MsLogging)" />
-    <PackageReference Include="Microsoft.Extensions.Logging.EventSource" Version="$(MsLogging)" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftJson)" />
+    <PackageReference Include="Serilog" Version="2.8.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
-    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.4" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.Development.json">
