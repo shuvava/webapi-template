@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
+using NSwag.Generation.Processors;
+
+using WebAppNSwag.Extensions.Swagger;
 using WebAppNSwag.Models;
 
 
@@ -16,12 +19,14 @@ namespace WebAppNSwag.Extensions
                     doc.Title = "Version 1";
                     doc.DocumentName = $"v{ApiVersions.V1}";
                     doc.ApiGroupNames = new[] {ApiVersions.V1};
+                    doc.OperationProcessors.Insert(0, new ApiVersionProcessor1()); // I do not know why built-in implementation remove header attribute
                 })
                 .AddOpenApiDocument(doc =>
                 {
                     doc.Title = "Version 2";
                     doc.DocumentName = $"v{ApiVersions.V2}";
                     doc.ApiGroupNames = new[] {ApiVersions.V2};
+                    doc.OperationProcessors.Insert(0, new ApiVersionProcessor());
                 });
             return services;
         }

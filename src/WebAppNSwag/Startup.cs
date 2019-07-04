@@ -29,15 +29,15 @@ namespace WebAppNSwag
         {
             services.AddApiVersioning(options =>
             {
-                options.ReportApiVersions = true;
+//                options.ReportApiVersions = true;
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.ApiVersionReader = new HeaderApiVersionReader("X-App-Version");
-                options.ReportApiVersions = true;
             });
 
             services.AddVersionedApiExplorer(options =>
             {
                 options.GroupNameFormat = "V";
+                options.SubstitutionFormat = "V";
                 options.SubstituteApiVersionInUrl = true;
             });
 
