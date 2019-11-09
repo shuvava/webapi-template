@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using WebAppNSwag.Extensions;
@@ -47,15 +48,15 @@ namespace WebAppNSwag
 
             services
                 .AddMvcCore()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddApiExplorer()
                 //.AddCors()
-                .AddJsonFormatters();
+                ;
         }
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.ConfigureExceptionHandler(env);
 
@@ -64,9 +65,14 @@ namespace WebAppNSwag
             if (env.IsDevelopment())
             {
             }
-
-            app.UseMvc();
             app.UseSwaggerDocumentation();
+
+            app.UseRouting();
+            //app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
