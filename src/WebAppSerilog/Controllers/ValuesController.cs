@@ -22,7 +22,7 @@ namespace WebAppSerilog.Controllers
             logger.LogWarning("LogWarning");
             logger.LogError("LogError");
             logger.LogCritical("LogCritical");
-            return Ok("Hello world!");
+            return Ok($"Hello world! {HttpContext.TraceIdentifier}");
         }
     }
 }
