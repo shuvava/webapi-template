@@ -35,12 +35,12 @@ namespace WebAppNSwag
                 options.ApiVersionReader = new HeaderApiVersionReader("X-App-Version");
             });
 
-            services.AddVersionedApiExplorer(options =>
-            {
-                options.GroupNameFormat = "V";
-                options.SubstitutionFormat = "V";
-                options.SubstituteApiVersionInUrl = true;
-            });
+            // services.  . AddVersionedApiExplorer(options =>
+            // {
+            //     options.GroupNameFormat = "V";
+            //     options.SubstitutionFormat = "V";
+            //     options.SubstituteApiVersionInUrl = true;
+            // });
 
             services.AddSwaggerDocumentation();
 

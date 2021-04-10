@@ -18,16 +18,16 @@
         <Copyright>shuvava</Copyright>
     </PropertyGroup>
     <PropertyGroup>
-        <NewtonsoftJson>12.0.3</NewtonsoftJson>
-        <MsLogging>3.0.0</MsLogging>
-        <MsConfiguration>3.0.0</MsConfiguration>
-		<MsConfigurationOptions>3.0.0</MsConfigurationOptions>
+        <NewtonsoftJson>13.0.1</NewtonsoftJson>
+        <MsLogging>5.0.0</MsLogging>
+        <MsConfiguration>5.0.0</MsConfiguration>
+		<MsConfigurationOptions>5.0.0</MsConfigurationOptions>
         <MsExtensionsCaching>2.2.0</MsExtensionsCaching>
     </PropertyGroup>
 
    <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning">
-      <Version>3.0.26</Version>
+      <Version>3.4.194</Version>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>

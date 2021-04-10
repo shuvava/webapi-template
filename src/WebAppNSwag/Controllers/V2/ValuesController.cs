@@ -19,7 +19,7 @@ namespace WebAppNSwag.Controllers.V2
         /// <response code="200" nullable="true">string</response>
         [HttpGet]
         [ProducesResponseType(typeof(string), 200)]
-        [OpenApiTag("V3VersionedValues", Description = "New operations that should be only visible for version 3")]
+        //[OpenApiTag("V3VersionedValues", Description = "New operations that should be only visible for version 3")]
         public ActionResult<string> Get() => "Hello world!(v2)";
     }
 }

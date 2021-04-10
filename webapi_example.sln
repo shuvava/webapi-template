@@ -12,6 +12,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppSerilog", "src\WebApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppNSwag", "src\WebAppNSwag\WebAppNSwag.csproj", "{E150AFC7-D36C-453C-8CE8-7C9D477A9536}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{2900E95D-1AEA-46B8-B9FE-37942C3982D6}"
+ProjectSection(SolutionItems) = preProject
+	Directory.Build.props = Directory.Build.props
+	nuget.config = nuget.config
+	README.md = README.md
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +45,10 @@ Global
 		{E150AFC7-D36C-453C-8CE8-7C9D477A9536}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E150AFC7-D36C-453C-8CE8-7C9D477A9536}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{E150AFC7-D36C-453C-8CE8-7C9D477A9536}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{01F37444-332B-4BC5-9DDE-D7C3D4A9356F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01F37444-332B-4BC5-9DDE-D7C3D4A9356F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01F37444-332B-4BC5-9DDE-D7C3D4A9356F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01F37444-332B-4BC5-9DDE-D7C3D4A9356F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
